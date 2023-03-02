@@ -58,6 +58,17 @@ def genCam3(cameraPort):
                    b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n'
                    )
 
+def genCam4(cameraPort):
+    cap4 = cv2.VideoCapture(cameraPort)
+    while True:
+        _, frame4 = cap4.read()
+        frame4 = cv2.flip(frame4, 1)
+        ret, jpeg = cv2.imencode('.jpg', frame4)
+        if ret:
+            yield (b'--frame4\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n'
+                   )
+            
 def genCam2Predict(cameraPort):
     cap2 = cv2.VideoCapture(cameraPort)
     classes = ['Alternaria', 'Anthracnose', 'Downy Mildew', 'Healthy', 'Non-plants', 'White Rust']
@@ -121,7 +132,7 @@ def video_feed2():
 
 @app.route('/video_feed3')
 def video_feed3():
-    return Response(genCam3(6),  #change camera port
+    return Response(genCam4(6),  #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #Routes for camera prediction 
