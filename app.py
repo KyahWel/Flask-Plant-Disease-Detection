@@ -30,11 +30,6 @@ def genCam1(cameraPort):
     while True:
         _, frame = cap.read()
         frame = cv2.flip(frame, 1)
-        # img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        # img_res = cv2.resize(img_rgb, (224,224), interpolation = cv2.INTER_AREA)
-        # x = np.expand_dims(img_res , 0)
-        # pred = model.predict_on_batch(x).flatten()
-        # prediction = np.argmax(pred)
         ret, jpeg = cv2.imencode('.jpg', frame)
         if ret:
             yield (b'--frame\r\n'
@@ -46,11 +41,6 @@ def genCam2(cameraPort):
     while True:
         _, frame2 = cap2.read()
         frame2 = cv2.flip(frame2, 1)
-        # img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        # img_res = cv2.resize(img_rgb, (224,224), interpolation = cv2.INTER_AREA)
-        # x = np.expand_dims(img_res , 0)
-        # pred = model.predict_on_batch(x).flatten()
-        # prediction = np.argmax(pred)
         ret, jpeg = cv2.imencode('.jpg', frame2)
         if ret:
             yield (b'--frame2\r\n'
@@ -62,11 +52,6 @@ def genCam3(cameraPort):
     while True:
         _, frame3 = cap3.read()
         frame3 = cv2.flip(frame3, 1)
-        # img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        # img_res = cv2.resize(img_rgb, (224,224), interpolation = cv2.INTER_AREA)
-        # x = np.expand_dims(img_res , 0)
-        # pred = model.predict_on_batch(x).flatten()
-        # prediction = np.argmax(pred)
         ret, jpeg = cv2.imencode('.jpg', frame3)
         if ret:
             yield (b'--frame3\r\n'
@@ -121,43 +106,43 @@ def genCam2Predict(cameraPort):
 #Routes for multi camera rendering
 @app.route('/video_feed0')
 def video_feed0():
-    return Response(genCam1(0),
+    return Response(genCam1(0), #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/video_feed1')
 def video_feed1():
-    return Response(genCam2(2),
+    return Response(genCam2(2),  #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/video_feed2')
 def video_feed2():
-    return Response(genCam3(4),
+    return Response(genCam3(4), #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/video_feed3')
 def video_feed3():
-    return Response(genCam3(6),
+    return Response(genCam3(6),  #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #Routes for camera prediction 
 @app.route('/video_feedPredict0')
 def video_feedPredict0():
-    return Response(genCam2Predict(0),
+    return Response(genCam2Predict(0),  #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/video_feedPredict1')
 def video_feedPredict1():
-    return Response(genCam2Predict(2),
+    return Response(genCam2Predict(2),  #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/video_feedPredict2')
 def video_feedPredict2():
-    return Response(genCam2Predict(4),
+    return Response(genCam2Predict(4),  #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/video_feedPredict3')
 def video_feedPredict3():
-    return Response(genCam2Predict(6),
+    return Response(genCam2Predict(6),  #change camera port
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #Routes for single camera
